@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const NumberLogic = require('../logic/numberLogic')
 router.get("/",async (req,res)=>{
-    console.log(req.query);
+    try{console.log(req.query);
     const features = new NumberLogic(req.query).filter();
     console.log(features);
     const ans = await features;
@@ -11,7 +11,8 @@ router.get("/",async (req,res)=>{
         data:{
             ans,
         }
-    });
-    setTimeout(() => res.status.send("timeout"), 500);
+    });}
+    catch(err){
+    setTimeout(() => res.status(404).json("timeout"), 500);}
 })
 module.exports = router;
