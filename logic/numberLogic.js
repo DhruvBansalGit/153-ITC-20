@@ -1,36 +1,28 @@
 class NumberLogic {
     constructor(queryString) {
         this.queryString = queryString;
-        this.value = [];
+        this.ans2 = [];
       }
-      filter() {
-        // 1A) FILTERING'
-        let url;
-        if(this.queryString.url){
-           url = this.queryString.url;
-        }
-        // console.log(url[0]);
-        
-        for(let i = 0;i< url.length;i++){
-          let querystr = fetch(url[i],{
-            headers:{
-              Authentication: 'Authorization',
-            }
-          })
-          querystr.then(res=> res.json()).then(val=> {
-          this.value = [...this.value ,...(JSON.stringify(val.numbers).split(',').join(' ').map((value,index)=>+value))]
-          console.log(this.value)
-        })
-        }
-        console.log(this.value)
-        // let querystr = fetch(url[0],{
-        //   headers:{
-        //     Authentication: 'Authorization',
-        //   }
-        // })
-        // querystr.then(res=> res.json()).then(value=>console.log(value))
-      
-      }
+      async filter() {
+        try{const ar = this.queryString.url;
+        const ans = [];
+        for(let x of ar ) {
+            let data = await fetch(x, { headers : {"Authentication" : `Authentication` }});
+            let d = await data.json();
+            ans.push(d.numbers);
+          }
 
+        ans.forEach(x => this.ans2.push(...x))
+        this.ans2 = Array.from(new Set(this.ans2));
+        this.ans2.sort((a, b) => a - b);
+        // console.log(this.ans2);
+        return this.ans2;
+      }catch(err){
+          console.log(err)
+        }
+
+      }
+      
 }
+
 module.exports = NumberLogic;
