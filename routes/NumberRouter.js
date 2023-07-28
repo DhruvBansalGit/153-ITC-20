@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
-router.get("/prime",(req,res)=>{
-    res.status(200).send("Prime");
+const NumberLogic = require('../logic/numberLogic')
+router.get("/",(req,res)=>{
+    console.log(req.query);
+    const features = new NumberLogic(req.query).filter();
 })
 module.exports = router;
