@@ -12,5 +12,6 @@ router.get("/",async (req,res)=>{
             ans,
         }
     });
+    setTimeout(() => res.status.send("timeout"), 500);
 })
 module.exports = router;
